@@ -17,6 +17,7 @@ help() {
   echo "  containing Bats test files."
   echo
   echo "  -c, --count    Count the number of test cases without running any tests"
+  echo "  -e, --echo     Echo test output (disables pretty format)"
   echo "  -h, --help     Display this help message"
   echo "  -p, --pretty   Show results in pretty format (default for terminals)"
   echo "  -t, --tap      Show results in TAP format"
@@ -90,6 +91,10 @@ for option in "${options[@]}"; do
     version
     exit 0
     ;;
+  "e" | "echo" )
+    echo_flag="-e"
+    pretty=""
+    ;;
   "c" | "count" )
     count_flag="-c"
     ;;
@@ -139,4 +144,4 @@ else
 fi
 
 set -o pipefail execfail
-exec "$command" $count_flag $extended_syntax_flag "${filenames[@]}" | "$formatter"
+exec "$command" $echo_flag $count_flag $extended_syntax_flag "${filenames[@]}" | "$formatter"
