@@ -62,11 +62,14 @@ run() {
   set +E
   set +T
   if [ -n "$BATS_ECHO" ]; then
-    "$@" 2>&1
+    BATS_SCREENOUT="${BATS_TMPNAME}.tmpout"
+    "$@" > $BATS_SCREENOUT 2>&1
+    output=$(cat $BATS_SCREENOUT)
+    status="$?"
   else
     output="$("$@" 2>&1)"
+    status="$?"
   fi
-  status="$?"
   IFS=$'\n' lines=($output)
   [ -z "$e" ] || set -e
   [ -z "$E" ] || set -E
