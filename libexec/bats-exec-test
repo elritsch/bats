@@ -63,9 +63,9 @@ run() {
   set +T
   if [ -n "$BATS_ECHO" ]; then
     BATS_SCREENOUT="${BATS_TMPNAME}.tmpout"
-    "$@" > $BATS_SCREENOUT 2>&1
+    "$@" | tee $BATS_SCREENOUT 2>&1
+    status="${PIPESTATUS[0]}"
     output=$(cat $BATS_SCREENOUT)
-    status="$?"
   else
     output="$("$@" 2>&1)"
     status="$?"
